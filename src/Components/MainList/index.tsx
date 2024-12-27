@@ -1,4 +1,4 @@
-import { Button, Flex, message, Typography } from "antd";
+import { Button, Flex, message, Skeleton, Typography } from "antd";
 import { MainListWrapper } from "./style";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ export interface SurveyI {
 }
 const MainList = () => {
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
 
 	const [surveys, setSurveys] = useState([]);
 	const [mySurveys, setMySurveys] = useState([]);
@@ -30,6 +31,7 @@ const MainList = () => {
 	};
 
 	const fetchMySurveys = async () => {
+		setLoading(true);
 		try {
 			const res = await getMySurveys();
 			if (res) {
@@ -38,6 +40,8 @@ const MainList = () => {
 		} catch (error) {
 			message.warning("Не найдены опросы");
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -59,8 +63,10 @@ const MainList = () => {
 				</Button>
 			</Flex>
 			<Flex vertical gap={12}>
+				{loading && <Skeleton />}
 				<div className="surveys">
 					{mySurveys &&
+						!loading &&
 						mySurveys.map((i) => (
 							<SurveyItem edit={true} data={i} />
 						))}
