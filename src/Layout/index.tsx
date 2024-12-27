@@ -1,10 +1,9 @@
-import React from "react";
-import { LayoutWrapper } from "./style";
-import { NavLink, Outlet, useNavigate } from "react-router";
-import { Button, Dropdown, Flex, MenuProps, Typography } from "antd";
-import { useGlobalContext } from "../Utils/globalProvider";
 import { HomeOutlined, LogoutOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Flex, MenuProps, Typography } from "antd";
+import { NavLink, Outlet, useNavigate } from "react-router";
 import { signOut } from "../Utils/appwriter";
+import { useGlobalContext } from "../Utils/globalProvider";
+import { LayoutWrapper } from "./style";
 
 const Layout = () => {
 	const { loading, isLogged, user, setIsLogged, setUser } =
@@ -22,7 +21,6 @@ const Layout = () => {
 
 		navigate("/login");
 	};
-
 
 	const items: MenuProps["items"] = [
 		{

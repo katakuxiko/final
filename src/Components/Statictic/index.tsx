@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Typography, message, Spin } from "antd";
+import { message, Spin, Typography } from "antd";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getSurveyById } from "../../Utils/appwriter"; // Используйте вашу функцию для получения опроса
-import { getAllSurveyAnswers } from "../../Utils/appwriter"; // Функция для получения всех ответов пользователей
+import { getAllSurveyAnswers, getSurveyById } from "../../Utils/appwriter"; // Используйте вашу функцию для получения опроса
 
 // Функция для подсчета статистики
 const calculateSurveyStatistics = (survey, allAnswers) => {

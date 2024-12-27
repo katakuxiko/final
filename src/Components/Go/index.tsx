@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
 import { Button, Form, Switch, Typography, message } from "antd";
-import { getSurveyById, submitSurveyAnswers } from "../../Utils/appwriter";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { getSurveyById, submitSurveyAnswers } from "../../Utils/appwriter";
 
 const SurveyPage = () => {
 	const [survey, setSurvey] = useState(null);

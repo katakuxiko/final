@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { SurveyItemWrapper } from "./style";
-import { SurveyI } from ".";
-import { Button, Typography } from "antd";
 import { EditOutlined, RightCircleOutlined } from "@ant-design/icons";
+import { Button, Typography } from "antd";
+import { FC } from "react";
 import { useNavigate } from "react-router";
+import { SurveyI } from ".";
+import { SurveyItemWrapper } from "./style";
 
 const SurveyItem: FC<{ data: SurveyI; edit?: boolean }> = ({ data, edit }) => {
 	const dataQue = JSON.parse(data.questions[0]);
