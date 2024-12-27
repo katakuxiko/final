@@ -1,38 +1,61 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import LoginPage from "./Components/LogIn";
+import SignUpPage from "./Components/SignUp";
+import GlobalProvider from "./Utils/globalProvider";
+import MainList from "./Components/MainList";
+import Layout from "./Layout";
+import AddForm from "./Components/Add";
+import Edit from "./Components/Edit";
+import SurveyPage from "./Components/Go";
+import SurveyResult from "./Components/Answers";
+import SurveyStatistics from "./Components/Statictic";
 
 function App() {
-	const [count, setCount] = useState(0);
+	const router = createBrowserRouter([
+		{
+			path: "/login",
+			element: <LoginPage />,
+		},
+		{
+			path: "/sign-up",
+			element: <SignUpPage />,
+		},
+		{
+			path: "/",
+			element: <Layout />,
+			children: [
+				{
+					path: "/",
+					element: <MainList />,
+				},
+				{
+					path: "/add",
+					element: <AddForm />,
+				},
+				{
+					path: "/edit/:id",
+					element: <Edit />,
+				},
+				{
+					path: "/go/:surveyId",
+					element: <SurveyPage />,
+				},
+				{
+					path: "/answers/:surveyId",
+					element: <SurveyResult />,
+				},
+				{
+					path: "/stat/:surveyId",
+					element: <SurveyStatistics />,
+				},
+			],
+		},
+	]);
 
 	return (
-		<>
-			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img
-						src={reactLogo}
-						className="logo react"
-						alt="React logo"
-					/>
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
-		</>
+		<GlobalProvider>
+			<RouterProvider router={router} />
+		</GlobalProvider>
 	);
 }
 
