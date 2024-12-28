@@ -14,11 +14,14 @@ export interface SurveyI {
 const MainList = () => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
+	const [loadingAll, setLoadingAll] = useState(true);
 
 	const [surveys, setSurveys] = useState([]);
 	const [mySurveys, setMySurveys] = useState([]);
 
 	const fetchSurveys = async () => {
+		setLoadingAll(true);
+
 		try {
 			const res = await getSurveys();
 			if (res) {
@@ -27,6 +30,8 @@ const MainList = () => {
 		} catch (error) {
 			message.warning("Не найдены опросы");
 			console.log(error);
+		} finally {
+			setLoadingAll(false);
 		}
 	};
 
@@ -76,6 +81,10 @@ const MainList = () => {
 				</div>
 
 				<Typography.Title level={4}>Все опросы</Typography.Title>
+				{loadingAll && <Skeleton />}
+				{!loadingAll && surveys.length === 0 && (
+					<Empty description="Опросовом пока нет!" />
+				)}
 				<div className="surveys">
 					{surveys && surveys.map((i) => <SurveyItem data={i} />)}
 				</div>
