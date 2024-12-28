@@ -119,7 +119,7 @@ async function submitSurveyAnswers(surveyId, answers);
 
 ### Запуск приложения в режиме разработки
 ```bash
-npm run start
+npm run dev
 ```
 
 ### Сборка приложения для продакшена
