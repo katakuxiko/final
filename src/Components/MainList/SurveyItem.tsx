@@ -1,4 +1,9 @@
-import { EditOutlined, RightCircleOutlined } from "@ant-design/icons";
+import {
+	CheckCircleOutlined,
+	EditOutlined,
+	FundOutlined,
+	RightCircleOutlined,
+} from "@ant-design/icons";
 import { Button, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router";
@@ -41,9 +46,17 @@ const SurveyItem: FC<{ data: SurveyI; edit?: boolean }> = ({ data, edit }) => {
 					navigate(`/stat/${data.$id}`);
 				}}
 				type="primary"
-				icon={<EditOutlined />}
+				icon={<FundOutlined />}
 			>
 				Статистика
+			</Button>
+			<Button
+				onClick={() => {
+					navigate(`/answers/${data.$id}`);
+				}}
+				icon={<CheckCircleOutlined />}
+			>
+				Мои ответы
 			</Button>
 		</SurveyItemWrapper>
 	);

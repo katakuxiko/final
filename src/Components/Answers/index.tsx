@@ -1,4 +1,4 @@
-import { Typography, message } from "antd";
+import { Empty, Typography, message } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getSurveyById, getUserAnswers } from "../../Utils/appwriter";
@@ -58,7 +58,7 @@ const SurveyResult = () => {
 
 	// Вызов функции для проверки ответов, если данные загрузились
 	useEffect(() => {
-		if (survey && userAnswers) {
+		if (survey && userAnswers && Object.keys(userAnswers).length > 0) {
 			checkAnswers();
 		}
 	}, [survey, userAnswers]);
@@ -68,6 +68,15 @@ const SurveyResult = () => {
 	}
 
 	const questions = JSON.parse(survey.questions[0]); // Десериализация вопросов
+
+	if (
+		!questions ||
+		!userAnswers ||
+		!survey ||
+		Object.keys(userAnswers).length === 0
+	) {
+		return <Empty description="Вы пока не проходили этот опрос!" />;
+	}
 
 	return (
 		<div>
