@@ -266,3 +266,15 @@ export async function getAllSurveyAnswers(surveyId) {
 		);
 	}
 }
+
+export async function deleteSurveyById(surveyId) {
+	try {
+		await databases.deleteDocument(
+			appwriteConfig.databaseId,
+			appwriteConfig.surveyCollectionId,
+			surveyId
+		);
+	} catch (error) {
+		throw new Error("Ошибка при удалении опроса: " + error.message);
+	}
+}
