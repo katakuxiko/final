@@ -1,50 +1,128 @@
-# React + TypeScript + Vite
+# Survey App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Этот проект представляет собой веб-приложение для проведения опросов, в котором можно:
+- Создавать опросы с несколькими вопросами и вариантами ответов.
+- Собирать ответы пользователей.
+- Отображать общую статистику по опросу и каждому вопросу.
 
-Currently, two official plugins are available:
+## Установка и запуск
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 1. Клонирование репозитория
+```bash
+git clone <URL вашего репозитория>
+cd <название папки>
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Установка зависимостей
+Убедитесь, что у вас установлен [Node.js](https://nodejs.org/). Затем выполните команду:
+```bash
+npm install
+```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### 3. Настройка Appwrite
+Приложение использует [Appwrite](https://appwrite.io/) для хранения данных. Настройте Appwrite следующим образом:
+- Создайте проект в Appwrite.
+- Добавьте коллекции для хранения опросов и ответов.
+- Настройте переменные в `Utils/appwriter.js`:
+  ```javascript
+  const appwriteConfig = {
+      endpoint: '<Ваш Appwrite Endpoint>',
+      projectId: '<Ваш Project ID>',
+      databaseId: '<Ваш Database ID>',
+      surveysCollectionId: '<ID коллекции опросов>',
+      answersCollectionId: '<ID коллекции ответов>',
+  };
+  export default appwriteConfig;
+  ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### 4. Запуск приложения
+```bash
+npm start
+```
+Приложение будет доступно по адресу [http://localhost:3000](http://localhost:5173).
+
+## Основные компоненты
+
+### SurveyPage
+Компонент для отображения и прохождения опроса.
+- Загружает данные опроса по его ID.
+- Позволяет пользователю выбирать ответы.
+- Отправляет ответы на сервер.
+
+### SurveyStatistics
+Компонент для отображения статистики по опросу.
+- Отображает общее количество ответов, количество правильных и неправильных ответов.
+- Предоставляет статистику по каждому вопросу.
+
+## Структура проекта
+```
+src/
+├── components/
+│   ├── Answers/index.ts        // Компонент для прохождения опросов
+│   ├── Go/index.ts  // Компонент для отображения статистики
+│   ├── и остальные копоненты в таком стиле
+├── Utils/
+│   ├── appwriter.js         // Конфигурация и функции для работы с Appwrite
+├── App.js                   // Основной компонент приложения
+├── index.js                 // Точка входа приложения
+```
+
+## API-функции
+
+### getSurveyById
+Получает данные опроса по его ID.
+```typescript
+async function getSurveyById(surveyId);
+```
+
+### getAllSurveyAnswers
+Получает все ответы пользователей для заданного опроса.
+```typescript
+async function getAllSurveyAnswers(surveyId);
+```
+
+### submitSurveyAnswers
+Отправляет ответы пользователя на сервер.
+```typescript
+async function submitSurveyAnswers(surveyId, answers);
+```
+
+## Примеры JSON-структур
+
+### Пример структуры опроса
+```json
+{
+  "survey": "Название опроса",
+  "descr": "Описание опроса",
+  "questions": [
+    "[{\"question\":\"Вопрос 1\",\"options\":[{\"option\":\"Ответ 1\",\"correct\":true},{\"option\":\"Ответ 2\"}]},
+     {\"question\":\"Вопрос 2\",\"options\":[{\"option\":\"Ответ A\",\"correct\":true},{\"option\":\"Ответ B\"}]}]"
+  ]
+}
+```
+
+### Пример структуры ответа пользователя
+```json
+{
+  "surveyId": "ID опроса",
+  "userId": "ID пользователя",
+  "answers": "{\"question_0\":[\"Ответ 1\"],\"question_1\":[\"Ответ A\"]}"
+}
+```
+
+## Используемые технологии
+- **React**: Библиотека для создания пользовательских интерфейсов.
+- **Ant Design**: Компонентная библиотека для React.
+- **Appwrite**: Платформа для бэкенда.
+
+## Разработка и тестирование
+
+### Запуск приложения в режиме разработки
+```bash
+npm run start
+```
+
+### Сборка приложения для продакшена
+```bash
+npm run build
 ```
