@@ -68,7 +68,7 @@ const MainList = () => {
 				</Button>
 			</Flex>
 			<Flex vertical gap={12}>
-				{loading && <Skeleton />}
+				{loading && <Skeleton active/>}
 				{!loading && mySurveys.length === 0 && (
 					<Empty description="Вы не создавали опросы!" />
 				)}
@@ -81,7 +81,7 @@ const MainList = () => {
 				</div>
 
 				<Typography.Title level={4}>Все опросы</Typography.Title>
-				{loadingAll && <Skeleton />}
+				{loadingAll && <Skeleton active/>}
 				{!loadingAll && surveys.length === 0 && (
 					<Empty description="Опросовом пока нет!" />
 				)}
