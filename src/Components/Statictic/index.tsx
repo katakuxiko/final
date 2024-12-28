@@ -1,4 +1,4 @@
-import { message, Spin, Typography } from "antd";
+import { Divider, message, Spin, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getAllSurveyAnswers, getSurveyById } from "../../Utils/appwriter"; // Используйте вашу функцию для получения опроса
@@ -10,6 +10,14 @@ const calculateSurveyStatistics = (survey, allAnswers) => {
 	let incorrectAnswersCount = 0;
 
 	const questions = JSON.parse(survey.questions[0]); // Десериализация вопросов
+
+	// Инициализируем статистику для каждого вопроса
+	const questionStats = questions.map((question) => ({
+		question: question.question,
+		totalResponses: 0,
+		correctResponses: 0,
+		incorrectResponses: 0,
+	}));
 
 	allAnswers.forEach((userAnswer) => {
 		const userAnswers = JSON.parse(userAnswer.answers); // Ответы пользователя
@@ -32,7 +40,12 @@ const calculateSurveyStatistics = (survey, allAnswers) => {
 				JSON.stringify(sortedUserSelectedOptions)
 			) {
 				userCorrectCount++; // Если ответы совпадают
+				questionStats[index].correctResponses++;
+			} else {
+				questionStats[index].incorrectResponses++;
 			}
+
+			questionStats[index].totalResponses++;
 		});
 
 		// Если пользователь правильно ответил на все вопросы
@@ -49,6 +62,7 @@ const calculateSurveyStatistics = (survey, allAnswers) => {
 		totalResponses,
 		correctAnswersCount,
 		incorrectAnswersCount,
+		questionStats, // Добавляем статистику по вопросам
 	};
 };
 
@@ -102,6 +116,32 @@ const SurveyStatistics = () => {
 					Неправильных ответов:{" "}
 					{surveyStatistics.incorrectAnswersCount}
 				</Typography.Text>
+				<br />
+				<Typography.Title level={3}>
+					Статистика по вопросам:
+				</Typography.Title>
+				{surveyStatistics.questionStats.map((stat, index) => (
+					<>
+						<div key={index} style={{ marginTop: 20 }}>
+							<Typography.Text>
+								<b>{stat.question}</b>
+							</Typography.Text>
+							<br />
+							<Typography.Text>
+								Всего ответов: {stat.totalResponses}
+							</Typography.Text>
+							<br />
+							<Typography.Text>
+								Правильных: {stat.correctResponses}
+							</Typography.Text>
+							<br />
+							<Typography.Text>
+								Неправильных: {stat.incorrectResponses}
+							</Typography.Text>
+						</div>
+						<Divider />
+					</>
+				))}
 			</div>
 		</div>
 	);
