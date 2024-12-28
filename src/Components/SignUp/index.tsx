@@ -5,8 +5,7 @@ import { createUser } from "../../Utils/appwriter";
 import { useGlobalContext, User } from "../../Utils/globalProvider";
 
 const SignUpPage = () => {
-	const { loading, isLogged, setUser, setIsLogged } =
-		useGlobalContext();
+	const { loading, isLogged, setUser, setIsLogged } = useGlobalContext();
 	const navigate = useNavigate();
 
 	if (!loading && isLogged) {
@@ -21,6 +20,7 @@ const SignUpPage = () => {
 				<Form
 					layout="vertical"
 					onFinish={async (i) => {
+						const hide = message.loading('Регистрируем...', 10)
 						try {
 							const result = await createUser(
 								i.email,
@@ -33,6 +33,8 @@ const SignUpPage = () => {
 						} catch (error) {
 							message.error("Произошла ошибка!");
 							console.log(error);
+						} finally {
+							hide()
 						}
 					}}
 				>
@@ -110,7 +112,7 @@ const SignUpPage = () => {
 					</Form.Item>
 
 					<Button htmlType="submit" type="primary" block size="large">
-						Войти
+						Зарегистрироваться
 					</Button>
 				</Form>
 				<div style={{ paddingTop: "12px" }}>

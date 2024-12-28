@@ -5,8 +5,7 @@ import { useGlobalContext, User } from "../../Utils/globalProvider";
 import { getCurrentUser, signIn } from "../../Utils/appwriter";
 
 const LoginPage = () => {
-	const { loading, isLogged, setUser, setIsLogged } =
-		useGlobalContext();
+	const { loading, isLogged, setUser, setIsLogged } = useGlobalContext();
 	const navigate = useNavigate();
 
 	if (!loading && isLogged) {
@@ -21,6 +20,8 @@ const LoginPage = () => {
 				<Form
 					layout="vertical"
 					onFinish={async (i) => {
+						const hide = message.loading("Авторизируем...", 10);
+
 						try {
 							await signIn(i.email, i.password);
 							const result = await getCurrentUser();
@@ -29,6 +30,8 @@ const LoginPage = () => {
 						} catch (error) {
 							message.error("Произошла ошибка");
 							console.log(error);
+						} finally {
+							hide();
 						}
 					}}
 				>

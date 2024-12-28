@@ -27,6 +27,8 @@ const Edit = () => {
 	};
 
 	const onFinish = async (values) => {
+		const hide = message.loading("Обновляем опрос...", 10);
+
 		try {
 			// Подготовка данных для отправки
 			const surveyData = {
@@ -37,11 +39,13 @@ const Edit = () => {
 
 			await updateSurvey(id, surveyData);
 			form.resetFields();
-			message.success("Форма успешно отредактирована");
+			message.success("Опрос успешно отредактирован");
 			navigate("/");
 		} catch (error) {
 			console.error("Ошибка при добавлении опроса:", error);
 			message.error("Произошла ошибка");
+		} finally {
+			hide();
 		}
 	};
 

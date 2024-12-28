@@ -6,6 +6,8 @@ const AddForm = () => {
 	const [form] = Form.useForm();
 
 	const onFinish = async (values) => {
+		const hide = message.loading("Создаём опрос...", 10);
+
 		try {
 			// Подготовка данных для отправки
 			const surveyData = {
@@ -16,10 +18,12 @@ const AddForm = () => {
 
 			await addSurvey(surveyData);
 			form.resetFields();
-			message.success("Форма успешно создана");
+			message.success("Опрос успешно создан");
 		} catch (error) {
 			console.error("Ошибка при добавлении опроса:", error);
 			message.error("Произошла ошибка");
+		} finally {
+			hide()
 		}
 	};
 

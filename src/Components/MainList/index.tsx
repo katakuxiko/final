@@ -1,4 +1,4 @@
-import { Button, Flex, message, Skeleton, Typography } from "antd";
+import { Button, Empty, Flex, message, Skeleton, Typography } from "antd";
 import { MainListWrapper } from "./style";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
@@ -64,6 +64,9 @@ const MainList = () => {
 			</Flex>
 			<Flex vertical gap={12}>
 				{loading && <Skeleton />}
+				{!loading && mySurveys.length === 0 && (
+					<Empty description="Вы не создавали опросы!" />
+				)}
 				<div className="surveys">
 					{mySurveys &&
 						!loading &&
